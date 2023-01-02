@@ -27,10 +27,6 @@ const LoginScreen = () => {
   
   });console.log('Errors found',errors);
 
-
-
-
-
   return (
     <div>
       <Container className='py-3'>

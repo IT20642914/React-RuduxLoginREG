@@ -7,8 +7,12 @@ import { BrowserRouter , Routes,Route } from 'react-router-dom';
 import HomeScreen from './screen/HomeScreen';
 import LoginScreen from './screen/LoginScreen';
 import SignupScreen from './screen/SignupScreen'
+import { store } from './redux/store';
+import { Provider } from 'react-redux/es/exports';
+
 function App() {
   return ( 
+    <Provider store={store} >
     <BrowserRouter>
     <Header />
     <main>
@@ -22,6 +26,7 @@ function App() {
     </main>
     <Footer />
   </BrowserRouter>
+  </Provider>
   );
 }
 
