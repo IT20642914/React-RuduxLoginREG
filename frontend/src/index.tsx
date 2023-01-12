@@ -5,6 +5,7 @@ import App from './App';
 
 // Importing the Bootstrap CSS
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../node_modules/font-awesome/css/font-awesome.css'
 
 
 const root = ReactDOM.createRoot(

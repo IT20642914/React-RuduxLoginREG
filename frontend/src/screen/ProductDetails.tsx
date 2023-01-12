@@ -3,9 +3,11 @@ import { Link, useParams } from 'react-router-dom'
 import axios from 'axios'
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux';
-import { selectedProduct } from '../redux/actions/productActions';
+import { AddToCart, selectedProduct } from '../redux/actions/productActions';
 import { useSelector } from 'react-redux';
 import { Card, Button } from 'react-bootstrap';
+import { NavLink } from 'react-router-dom';
+import Skeleton from 'react-loading-skeleton';
 
 
 const ProductDetails = () => {
@@ -14,7 +16,12 @@ const ProductDetails = () => {
 
   const {productId} =useParams();
   const dispatch=useDispatch();
- console.log("prodcut",product);
+  console.log("prodcut",product);
+
+const addproducttocart=(product:any)=>{
+  // console.log("massage from addto cart",product)
+  dispatch(AddToCart(product))
+}
 
 
   const fetchproductDetails=async (productId:any)=>{
@@ -32,21 +39,46 @@ await axios.get(`https://fakestoreapi.com/products/${productId}`).then((response
     fetchproductDetails(productId);}
   },[productId])
   return (
-    <div className="ui grid container">
+    <div>
       {Object.keys(product).length === 0 ? (
-        <div>...Loading</div>
+        <>
+        Lording.....
+        <div className='col-md-6'>
+          <Skeleton height={400}/>
+          </div>
+        <div className="col-md-6">
+          <Skeleton height={50} width={400}/>
+          <Skeleton height={75}/>
+          <Skeleton height={25} width={150}/>
+          <Skeleton height={50} />
+          <Skeleton height={150} />
+          <Skeleton height={50} width={100}/>
+          <Skeleton height={50} width={100} style={{marginLeft:6}}/>
+        </div>
+        </>
       ) : (
-        <Card  className='card ' style={{ width: '50em'}}>
-        <Card.Img variant='top' src={image} alt={title} style={{ width:'25rem',height: '20rem'}} />
-         <Card.Body  style={{ height: '28rem',width:'30rem'}}>
-            <Card.Title className='card-title'>{title}</Card.Title>
-            <Card.Text>{description}</Card.Text>
-            <Card.Subtitle className='card-subtitle'>${price}</Card.Subtitle>
-            <Card.Text className='meta '>{category}</Card.Text>
-            
-            </Card.Body>
+         
+    <div className='container py-5 ' >
+    <div className='row border-3 py-4'>
+        <div className="col-md-6 ">
+        <img  src={image} alt={title} style={{ width:'400px',height: '400px'}} />
+       </div>
+
+       <div className='col-md-6'>
+            <h4 className='text-uppercase text-black-50 '>{category}</h4>
+            <h1 className='display-5'>{title}</h1>
+             <p className="lead fw-bolder">
+                 Rating {rating &&rating.rate}<i className="fa fa-star"></i>
+           </p>
+           <h3 className=" display-6 fw-bold my-4">${price}</h3>
+           <p className="lead">{description}</p>
+           <button className=' btn btn-outline-dark px-4 py-2' onClick={()=>addproducttocart(product)} >Add to cart</button>
+           <NavLink className=' btn btn-dark mx-2 px-4 py-2' to={'/cart'}>Go to cart</NavLink>
+        </div>
            
-     </Card>
+     </div>
+     </div>
+ 
       )}
     </div>
   )

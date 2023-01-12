@@ -5,7 +5,7 @@ import axios from 'axios';
 import { setProduct } from '../redux/actions/productActions';
 
 const ProductListing = () => {
-  const products = useSelector((state) => state)
+  const products = useSelector((state:any) => state.allProducts)
   console.log(products);
 
   const dispatch = useDispatch();

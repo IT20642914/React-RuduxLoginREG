@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { Form, Button, Container, Row, Card,Col, CardGroup } from 'react-bootstrap';
+import {  Button, Container, Row, Card, } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 const Productcomponent = () => {
     const products = useSelector((state: any) => state.allProducts.products);
@@ -12,31 +12,33 @@ const Productcomponent = () => {
       const {id,title,price,category,image} = product;
 
 
-      return (  <Container className="wide" key={id} >
-
-               <Card  className='card ' style={{ width: '18rem'}}>
-                <Card.Img variant='top' src={image} alt={title} style={{ height: '20rem'}} />
-                 <Card.Body  style={{ height: '14rem'}}>
-                    <Card.Title className='card-title'>{title}</Card.Title>
+      return (  <Container className="col-md-3 mb-4 " key={id} >
+               <Card  className='card h-100 text-center p-4' >
+                <Card.Img variant='top' src={image} alt={title} style={{height:'250px'}} />
+                 <Card.Body  >
+                    <Card.Title className='card-title'>{title.substring(0,11)} ...</Card.Title>
                     <Card.Subtitle className='card-subtitle'>${price}</Card.Subtitle>
-                    <Card.Text className='meta '>{category}</Card.Text>
-                    <Link  to={`/Product/${id}`}> <Button>view item</Button>  </Link>
+                    <Card.Text className='lead fw-bold'>{category}</Card.Text>
                     </Card.Body>
-                   
+                   <Link to={`/Product/${id}`}> <Button className=' btn btn-outline-info bg-dark '>Buy Now</Button>  </Link>
              </Card>
-           
            </Container>);
+          
+
+
+
+
     })
 
     return (
-        <Col  className='md-offset-2' >
+    
         <Row xs={1} md={4} style={{height:"13rem"}} className="g-4">
 
     
        {renderList}
     
        </Row>  
-       </Col> 
+      
     )
 }
 

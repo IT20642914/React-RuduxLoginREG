@@ -1,14 +1,16 @@
 import { combineReducers } from "redux";
 import  btnValueReducer from './btnReducer';
-import { productReducer,selectedProductReducer} from "./productReducer";
+import { handleCartReducer, productReducer,selectedProductReducer} from "./productReducer";
 
 
 
 const RootReducer =combineReducers({
 
-    // btnValue:btnValueReducer,
+     btnValue:btnValueReducer,
     allProducts:productReducer,
-    product:selectedProductReducer
+    product:selectedProductReducer,
+    cart:handleCartReducer
+
 
 })
 export default RootReducer;
