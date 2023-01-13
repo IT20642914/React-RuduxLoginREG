@@ -1,7 +1,7 @@
 
 import React from 'react'
 import { useSelector } from 'react-redux'
-import {  Button, Container, Row, Card, } from 'react-bootstrap';
+import {  Button, Container, Row, Card, CardGroup, } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 const Productcomponent = () => {
     const products = useSelector((state: any) => state.allProducts.products);
@@ -13,6 +13,7 @@ const Productcomponent = () => {
 
 
       return (  <Container className="col-md-3 mb-4 " key={id} >
+        
                <Card  className='card h-100 text-center p-4' >
                 <Card.Img variant='top' src={image} alt={title} style={{height:'250px'}} />
                  <Card.Body  >
@@ -31,11 +32,14 @@ const Productcomponent = () => {
     })
 
     return (
-    
-        <Row xs={1} md={4} style={{height:"13rem"}} className="g-4">
-
+     
+        <Row xs={1} mx={4} style={{marginBottom:'13rem'}}  className="g-4">
+       <CardGroup>
     
        {renderList}
+    
+    
+       </CardGroup>
     
        </Row>  
       

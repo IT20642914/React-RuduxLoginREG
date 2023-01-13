@@ -11,10 +11,6 @@ const PORT = process.env.PORT || "9090";
 
 app.use(cors());
 app.use(express.json({ limit: "20mb" }));
-// app.get("/", (req, res, next) => {
-//     res.send("<h2>test 1 </h2>");
-//     next();
-// }); 
 
 
 app.listen(PORT, () => {
@@ -25,6 +21,7 @@ app.listen(PORT, () => {
 
 const Users = require("./routes/users.js");   //this is our middleware to connect routers and model
 //app.use("/users",userrouter);
-
 app.use("/Users",Users)
+
+
 

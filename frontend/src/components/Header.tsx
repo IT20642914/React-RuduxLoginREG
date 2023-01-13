@@ -10,7 +10,7 @@ const Header = () => {
   return (
     <nav className="navbar navbar-inverse navbar-fixed-top  navbar-expand-lg navbar-dark bg-dark py-3 shadow-sm">
       <div className="container-fluid">
-        <a className="navbar-brand fw-bold fs-4" href="#">
+        <a className="navbar-brand fw-bold fs-4" href="/">
           REDUX
         </a>
         <button
@@ -28,7 +28,7 @@ const Header = () => {
         <div className="collapse navbar-collapse" id="navbarSupportedContent">
           <ul className="navbar-nav mx-auto">
             <li className="nav-item active">
-              <a className="nav-link" href="#">
+              <a className="nav-link" href="/">
                 Home <span className="sr-only">(current)</span>
               </a>
             </li>

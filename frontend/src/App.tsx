@@ -2,7 +2,7 @@ import React from 'react';
 import Header from './components/Header';
 import Footer  from './components/Footer';
 import './App.css';
-import { Container } from 'react-bootstrap';
+
 import { BrowserRouter , Routes,Route } from 'react-router-dom';
 import HomeScreen from './screen/HomeScreen';
 import LoginScreen from './screen/LoginScreen';
@@ -11,10 +11,9 @@ import ProductDetails from './screen/ProductDetails';
 import ProductListing from './screen/ProductListing';
 import { store,persistore } from './redux/store';
 import { Provider } from 'react-redux';
-import NavBar from './components/NavBar';
-import Products from './screen/products';
 import Cart from './components/Cart';
 import { PersistGate } from 'redux-persist/integration/react';
+import { Container } from 'react-bootstrap';
 
 function App() {
   return ( 
@@ -22,9 +21,10 @@ function App() {
       <PersistGate persistor={persistore}>
     <BrowserRouter>
     <Header />
-    {/* <NavBar/> */}
+
+ 
     <main>
-     
+  <Container>
         <Routes>
         <Route  path="/" element={<HomeScreen/>} />
        
@@ -36,7 +36,7 @@ function App() {
         <Route> 404 Not Found!</Route>
 
       </Routes>
-     
+      </Container>
     </main>
     <Footer />
   </BrowserRouter>

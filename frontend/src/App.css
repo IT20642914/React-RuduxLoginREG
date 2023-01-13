@@ -4,7 +4,10 @@
 }
 main{
   margin-top: 3rem;
-  height: 75vh;
+  position: relative;
+  min-height: 75vh;
+
+
 }
 input.input-error,
 select.input-error{

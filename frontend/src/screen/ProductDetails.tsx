@@ -39,25 +39,8 @@ await axios.get(`https://fakestoreapi.com/products/${productId}`).then((response
     fetchproductDetails(productId);}
   },[productId])
   return (
-    <div>
-      {Object.keys(product).length === 0 ? (
-        <>
-        Lording.....
-        <div className='col-md-6'>
-          <Skeleton height={400}/>
-          </div>
-        <div className="col-md-6">
-          <Skeleton height={50} width={400}/>
-          <Skeleton height={75}/>
-          <Skeleton height={25} width={150}/>
-          <Skeleton height={50} />
-          <Skeleton height={150} />
-          <Skeleton height={50} width={100}/>
-          <Skeleton height={50} width={100} style={{marginLeft:6}}/>
-        </div>
-        </>
-      ) : (
-         
+    <div style={{marginBottom:'12rem'}}>
+    
     <div className='container py-5 ' >
     <div className='row border-3 py-4'>
         <div className="col-md-6 ">
@@ -79,7 +62,7 @@ await axios.get(`https://fakestoreapi.com/products/${productId}`).then((response
      </div>
      </div>
  
-      )}
+    
     </div>
   )
 }

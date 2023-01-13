@@ -43,8 +43,8 @@ const SignupScreen = () => {
     <div>
 
 
-      <Container className='py-3'>
-        <Row className='justify-content-md-center card shadow mb-4' >
+      <div className='container  py-0'style={{height:'auto', marginBottom:'13rem'}}>
+        <div className='row justify-content-md-center  card shadow mb-4'  >
           <Col className="card-header py-3" >
             <h1 className="m-2 card-title">Sign Up</h1>
             {/* <FormContainer> */}
@@ -118,8 +118,8 @@ const SignupScreen = () => {
             </Form>
             {/* </FormContainer> */}
           </Col>
-        </Row>
-      </Container>
+        </div>
+      </div>
 
     </div>
   )

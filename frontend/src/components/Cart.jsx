@@ -22,7 +22,7 @@ const Cart = () => {
     const {id,title,price,category,image} = product;
 
     return (
-    <div className='container py-5 ' key={id}>
+    <div className='container py-5 'style={{paddingBottom:'12rem'}} key={id}>
          <div className='row border-3 py-4'></div>
      <div className='row'>
      <div className="col-md-4">
@@ -56,7 +56,7 @@ console.log("from cart",product)
 
 
     return (
-    <div className='card m-4 bg-light  ' >     
+    <div className='card m-4 bg-light  ' style={{paddingBottom:'25rem'}}>     
     
         {cartList}
         <h1 className="center">
