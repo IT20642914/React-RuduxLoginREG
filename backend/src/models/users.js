@@ -26,7 +26,8 @@ const UserSchema = new schema({
     password: {
         type: String,
         required: true
-    }
+    }, 
+     joined: { type: Date, default: Date.now },
 
 
 

@@ -1,7 +1,9 @@
 const router = require("express").Router();
 const User = require("../models/users");
 //let user = require("../models/users");
-
+const bcrypt = require("bcrypt");
+const Users = require("../models/users");
+const { where } = require("../models/users");
 //adding users
 //http://localhost:9090/user/add
 router.route("/add").post((req, res) => {
@@ -10,7 +12,6 @@ router.route("/add").post((req, res) => {
   const email = req.body.email;
   const phoneNumber = Number(req.body.phoneNumber);
   const password = req.body.password;
-
   const newuser = new User({firstname,lastname,email,phoneNumber,password,
   });
   //save user and return json
@@ -28,29 +29,64 @@ router.route("/add").post((req, res) => {
 
 //register user
 
-router.route("/register").post((req, res) => {
+router.route("/register").post(async(req, res) => {
   const firstname = req.body.firstname;
   const lastname = req.body.lastname;
   const email = req.body.email;
   const phoneNumber = Number(req.body.phoneNumber);
-  const password = req.body.password;
-
+  const password = await bcrypt.hash (req.body.password,10);
   const newuser = new User({firstname,lastname,email,phoneNumber,password,
-});
 
-  newuser.save().then(()=>{
-
-    res.json("USER REGISTERD");
-
-  })
-  .catch((err)=>{
-    if(err){
-        res.status(400).json({error:err});
-    }
-  })
-
+ 
 
 });
+const user= await Users.findOne({email:email})
+if(!user){
+
+    newuser.save().then(()=>{
+
+        res.json("USER REGISTERD");
+    
+      })
+      .catch((err)=>{
+        if(err){
+            res.status(400).json({error:err});
+        }
+      })
+}else{
+    res.json("email adress is alredy used")
+}
+
+
+});
+
+
+
+
+//userLogin
+
+router.route("/login").post(async(req,res)=>{
+    const {email,password}=req.body;
+
+     const user= await Users.findOne({email:email});
+     console.log(user);
+     if(!user) res.status(400).json({error:"User Doesn't Exist"});
+     const DbPassword= user.password;
+    
+     bcrypt.compare(password,DbPassword).then((match)=>{
+        if(!match){
+            res.status(400).json({error:"Wrong Email and password combination"})
+        }else{
+         res.status(200).json("Log in")
+        }
+
+     })
+ 
+
+
+})
+
+
 
 //viewall
 router.route("/").get((req, res) => {
