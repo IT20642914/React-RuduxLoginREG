@@ -2,6 +2,7 @@ const router = require("express").Router();
 const User = require("../models/users");
 //let user = require("../models/users");
 const bcrypt = require("bcrypt");
+const 
 const Users = require("../models/users");
 const { where } = require("../models/users");
 //adding users
