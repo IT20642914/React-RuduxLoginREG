@@ -2,31 +2,32 @@ const router = require("express").Router();
 const User = require("../models/users");
 //let user = require("../models/users");
 const bcrypt = require("bcrypt");
-const 
+const cookiePraser= require("cookie-parser")
 const Users = require("../models/users");
 const { where } = require("../models/users");
+const  {createTokens, validateTokens}= require("../JWT")
 //adding users
 //http://localhost:9090/user/add
-router.route("/add").post((req, res) => {
-  const firstname = req.body.firstname;
-  const lastname = req.body.lastname;
-  const email = req.body.email;
-  const phoneNumber = Number(req.body.phoneNumber);
-  const password = req.body.password;
-  const newuser = new User({firstname,lastname,email,phoneNumber,password,
-  });
-  //save user and return json
+// router.route("/add").post((req, res) => {
+//   const firstname = req.body.firstname;
+//   const lastname = req.body.lastname;
+//   const email = req.body.email;
+//   const phoneNumber = Number(req.body.phoneNumber);
+//   const password = req.body.password;
+//   const newuser = new User({firstname,lastname,email,phoneNumber,password,
+//   });
+//   //save user and return json
 
-  newuser
-    .save()
-    .then(() => {
-      res.json(newuser._id);
-      console.log(newuser._id);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-});
+//   newuser
+//     .save()
+//     .then(() => {
+//       res.json(newuser._id);
+//       console.log(newuser._id);
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//     });
+// });
 
 //register user
 
@@ -76,9 +77,13 @@ router.route("/login").post(async(req,res)=>{
     
      bcrypt.compare(password,DbPassword).then((match)=>{
         if(!match){
-            res.status(400).json({error:"Wrong Email and password combination"})
+            res.status(400).json({error:"Wrong Email and password combination"});
         }else{
-         res.status(200).json("Log in")
+
+            const accsessToken= createTokens(user);
+            res.cookie("access-token",accsessToken,{maxAge:60*60*1000,
+            httpOnly:true,});
+         res.status(200).json("Log in");
         }
 
      })
@@ -89,8 +94,9 @@ router.route("/login").post(async(req,res)=>{
 
 
 
+
 //viewall
-router.route("/").get((req, res) => {
+router.route("/").get(validateTokens,(req, res) => {
   User.find()
     .then((users) => {
       res.json(users);
@@ -98,67 +104,67 @@ router.route("/").get((req, res) => {
     .catch((err) => {
       console.log(err);
     });
-});
+}); 
 
-//update
+// //update
 
-router.route("/update/:id").put(async (req, res) => {
-  let userId = req.params.id;
+// router.route("/update/:id").put(async (req, res) => {
+//   let userId = req.params.id;
 
-  const {firstname,lastname, email, address, phoneNumber, password } = req.body;
+//   const {firstname,lastname, email, address, phoneNumber, password } = req.body;
 
-  const updateUser = {
-    firstname,
-    lastname,
-    email,
-    phoneNumber,
-    password,
-  };
-  const update = await User.findByIdAndUpdate(userId, updateUser)
-    .then(() => {
-      res.status(200).send({ status: "User updated", user: update });
-    })
-    .catch((err) => {
-      console.log(err);
-      res.status(500).send({
-        status: "Error with updating Data ",
-        error: err.massage,
-      });
-    });
-});
+//   const updateUser = {
+//     firstname,
+//     lastname,
+//     email,
+//     phoneNumber,
+//     password,
+//   };
+//   const update = await User.findByIdAndUpdate(userId, updateUser)
+//     .then(() => {
+//       res.status(200).send({ status: "User updated", user: update });
+//     })
+//     .catch((err) => {
+//       console.log(err);
+//       res.status(500).send({
+//         status: "Error with updating Data ",
+//         error: err.massage,
+//       });
+//     });
+// });
 
-//http://localhost:9090/User/delete/631218392a59d3d1790a6059
-router.route("/delete/:id").delete(async (req, res) => {
-  let userId = req.params.id;
-  await User.findByIdAndDelete(userId)
-    .then(() => {
-      res.status(200).send({ status: "User deleted" });
-    })
-    .catch((err) => {
-      console.log(err.message);
-      res
-        .status(500)
-        .send({ status: "Error with delete user", error: err.massage });
-    });
-}) /
-  router.route("/auth").get(async (req, res) => {
-    let userEmail = req.body.email;
-    let userpassword = req.body.password;
-    const user = await User.findOne({ email: userEmail })
-      .then((user) => {
-        if (user.password === userpassword) {
-          res.status(200).send({ status: "User find", user });
-        } else {
-          res.status(200).send({ status: "User not find" });
-        }
-      })
-      .catch((err) => {
-        console.log(err.message);
-        res
-          .status(500)
-          .send({ status: "Error with get email user", error: err.massage });
-      });
-  });
+// //http://localhost:9090/User/delete/631218392a59d3d1790a6059
+// router.route("/delete/:id").delete(async (req, res) => {
+//   let userId = req.params.id;
+//   await User.findByIdAndDelete(userId)
+//     .then(() => {
+//       res.status(200).send({ status: "User deleted" });
+//     })
+//     .catch((err) => {
+//       console.log(err.message);
+//       res
+//         .status(500)
+//         .send({ status: "Error with delete user", error: err.massage });
+//     });
+// }) /
+//   router.route("/auth").get(async (req, res) => {
+//     let userEmail = req.body.email;
+//     let userpassword = req.body.password;
+//     const user = await User.findOne({ email: userEmail })
+//       .then((user) => {
+//         if (user.password === userpassword) {
+//           res.status(200).send({ status: "User find", user });
+//         } else {
+//           res.status(200).send({ status: "User not find" });
+//         }
+//       })
+//       .catch((err) => {
+//         console.log(err.message);
+//         res
+//           .status(500)
+//           .send({ status: "Error with get email user", error: err.massage });
+//       });
+//   });
 
 // router.get('/signup',(req,res)=>{
 //     res.send("hello");
@@ -195,4 +201,20 @@ router.route("/delete/:id").delete(async (req, res) => {
 // })
 // })
 
-module.exports = router;
+
+
+
+
+// import { Router } from "express";
+// import auth from "../middleware/auth";
+// import roleCheck from "../middleware/roleCheck";
+
+// const router = Router();
+
+// router.get("/details", auth, (req, res) => {
+// 	res.status(200).json({ message: "user authenticated." });
+// });
+
+// export default router;
+
+ module.exports = router;

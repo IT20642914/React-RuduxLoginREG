@@ -27,8 +27,16 @@ const UserSchema = new schema({
         type: String,
         required: true
     }, 
-     joined: { type: Date, default: Date.now },
-
+     joined: {
+         type: Date, 
+         default: Date.now 
+        },
+    
+        roles: {
+            type: [String],
+            enum: ["user", "admin", "super_admin"],
+            default: ["user"],
+        },
 
 
 })

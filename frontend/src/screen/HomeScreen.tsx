@@ -1,8 +1,6 @@
 import React ,{useState} from 'react'
 import { useDispatch ,useSelector} from 'react-redux';
-import ProductListing from './ProductListing';
-
-
+import { btn_value_increse } from '../redux/actions/btnAction';
 
 
 
@@ -10,15 +8,26 @@ import ProductListing from './ProductListing';
 const HomeScreen = () => {
   const  [value,setValue ]=useState(0);
 const dispatch =useDispatch();
+const  countstaet= useSelector((state:any)=> state.btnValue.btnValue)
+console.log("state",countstaet)
+const handlechange=()=>{
+  console.log("hey")
+  dispatch(btn_value_increse())
+}
 
   return (
-    <div className='hero ' >
+    
 
-      
-    <h1 className="card-title display-3 ">Shopping home</h1>
+<div>
+  <div className='Container'>
 
 
-    <ProductListing/>
+  {countstaet}
+<button onClick={handlechange}>click me </button>
+
+  
+
+</div>
   </div>
 
   )
