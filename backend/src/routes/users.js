@@ -1,220 +1,95 @@
 const router = require("express").Router();
-const User = require("../models/users");
-//let user = require("../models/users");
-const bcrypt = require("bcrypt");
-const cookiePraser= require("cookie-parser")
-const Users = require("../models/users");
-const { where } = require("../models/users");
-const  {createTokens, validateTokens}= require("../JWT")
-//adding users
-//http://localhost:9090/user/add
-// router.route("/add").post((req, res) => {
+const authController= require("../controller/authController")
+const  {createTokens, validateTokens,authRole}= require("../JWT");
+import auth from "../middleware/auth.js";
+import roleCheck from "../middleware/roleCheck.js";
+
+
+
+
+router.post('/login',authController.handleLogin)
+router.post('/register',authController.handleRegistation)
+router.get('/',authController.view)
+
+
+
+
+
+
+
+// router.route("/register").post(async(req, res) => {
+//   const username=req.body.username;
 //   const firstname = req.body.firstname;
 //   const lastname = req.body.lastname;
 //   const email = req.body.email;
 //   const phoneNumber = Number(req.body.phoneNumber);
-//   const password = req.body.password;
-//   const newuser = new User({firstname,lastname,email,phoneNumber,password,
-//   });
-//   //save user and return json
-
-//   newuser
-//     .save()
-//     .then(() => {
-//       res.json(newuser._id);
-//       console.log(newuser._id);
+//   const password = await bcrypt.hash (req.body.password,10);
+//   const newuser = new User({firstname,lastname,email,phoneNumber,password,username
+// });
+// const user= await Users.findOne({email:email})
+// const user2= await Users.findOne({username:username})
+// if(!user){
+ 
+//   if(!user2){
+//         newuser.save().then(()=>{
+//       res.json("USER REGISTERD");
+  
+//     }).catch((err)=>{
+//       if(err){
+//         res.status(400).json({error:err});
+//       }
 //     })
-//     .catch((err) => {
-//       console.log(err);
-//     });
+//       }else{
+//         res.json("username is alredy used")
+//       }
+// }else{
+//     res.json("email adress is alredy used")
+// }
 // });
 
-//register user
 
-router.route("/register").post(async(req, res) => {
-  const firstname = req.body.firstname;
-  const lastname = req.body.lastname;
-  const email = req.body.email;
-  const phoneNumber = Number(req.body.phoneNumber);
-  const password = await bcrypt.hash (req.body.password,10);
-  const newuser = new User({firstname,lastname,email,phoneNumber,password,
 
- 
+// //userLogin
+// router.route("/login").post(async(req,res)=>{
+//     const {email,password}=req.body;
 
-});
-const user= await Users.findOne({email:email})
-if(!user){
-
-    newuser.save().then(()=>{
-
-        res.json("USER REGISTERD");
+//      const user= await Users.findOne({email:email});
+//      console.log(user);
+//      if(!user) res.status(400).json({error:"User Doesn't Exist"});
+//      const DbPassword= user.password;
     
-      })
-      .catch((err)=>{
-        if(err){
-            res.status(400).json({error:err});
-        }
-      })
-}else{
-    res.json("email adress is alredy used")
-}
+//      bcrypt.compare(password,DbPassword).then((match)=>{
+//         if(!match){
+//             res.status(400).json({error:"Wrong Email and password combination"});
+//         }else{
 
+//             const accsessToken= createTokens(user);
+//             res.cookie("access-token",accsessToken,{maxAge:60*60*1000,
+//             httpOnly:true,});
+//          res.status(200).json({ 'success': `User ${user.firstname} is logged in!` });
+       
+//         }
 
-});
-
-
+//      })
+// })
 
 
 //userLogin
 
-router.route("/login").post(async(req,res)=>{
-    const {email,password}=req.body;
-
-     const user= await Users.findOne({email:email});
-     console.log(user);
-     if(!user) res.status(400).json({error:"User Doesn't Exist"});
-     const DbPassword= user.password;
-    
-     bcrypt.compare(password,DbPassword).then((match)=>{
-        if(!match){
-            res.status(400).json({error:"Wrong Email and password combination"});
-        }else{
-
-            const accsessToken= createTokens(user);
-            res.cookie("access-token",accsessToken,{maxAge:60*60*1000,
-            httpOnly:true,});
-         res.status(200).json("Log in");
-        }
-
-     })
- 
-
-
-})
 
 
 
 
 //viewall
-router.route("/").get(validateTokens,(req, res) => {
-  User.find()
-    .then((users) => {
-      res.json(users);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}); 
-
-// //update
-
-// router.route("/update/:id").put(async (req, res) => {
-//   let userId = req.params.id;
-
-//   const {firstname,lastname, email, address, phoneNumber, password } = req.body;
-
-//   const updateUser = {
-//     firstname,
-//     lastname,
-//     email,
-//     phoneNumber,
-//     password,
-//   };
-//   const update = await User.findByIdAndUpdate(userId, updateUser)
-//     .then(() => {
-//       res.status(200).send({ status: "User updated", user: update });
+// router.route("/").get(validateTokens,(req, res) => {
+//   User.find()
+//     .then((users) => {
+//       res.json(users);
 //     })
 //     .catch((err) => {
 //       console.log(err);
-//       res.status(500).send({
-//         status: "Error with updating Data ",
-//         error: err.massage,
-//       });
 //     });
-// });
+// }); 
 
-// //http://localhost:9090/User/delete/631218392a59d3d1790a6059
-// router.route("/delete/:id").delete(async (req, res) => {
-//   let userId = req.params.id;
-//   await User.findByIdAndDelete(userId)
-//     .then(() => {
-//       res.status(200).send({ status: "User deleted" });
-//     })
-//     .catch((err) => {
-//       console.log(err.message);
-//       res
-//         .status(500)
-//         .send({ status: "Error with delete user", error: err.massage });
-//     });
-// }) /
-//   router.route("/auth").get(async (req, res) => {
-//     let userEmail = req.body.email;
-//     let userpassword = req.body.password;
-//     const user = await User.findOne({ email: userEmail })
-//       .then((user) => {
-//         if (user.password === userpassword) {
-//           res.status(200).send({ status: "User find", user });
-//         } else {
-//           res.status(200).send({ status: "User not find" });
-//         }
-//       })
-//       .catch((err) => {
-//         console.log(err.message);
-//         res
-//           .status(500)
-//           .send({ status: "Error with get email user", error: err.massage });
-//       });
-//   });
-
-// router.get('/signup',(req,res)=>{
-//     res.send("hello");
-// });
-
-// router.post('/signup',(req,res)=>{
-//     var {name,email,password}=req.body
-//     console.log(req.body)
-//     if(!email || !password || !name)
-//     {
-//         return res.status(422).json({error:"Add all data"})
-//     }
-//     User.findOne({email:email})
-//    .then((savedUser)=>{
-//        if(savedUser){
-//             return res.status(422).json({error:"User already exists with that email"})
-//        }
-//        const user=new User({
-//         email,
-//         password,
-//         name,
-//     })
-//     user.save()
-//     .then((user)=>{
-//         res.json({message:"Saved Successfully"})
-//         console.log(user.email)
-//     })
-//     .catch((err)=>{
-//         console.log(err)
-//     })
-// })
-// .catch((err)=>{
-//     console.log(err)
-// })
-// })
-
-
-
-
-
-// import { Router } from "express";
-// import auth from "../middleware/auth";
-// import roleCheck from "../middleware/roleCheck";
-
-// const router = Router();
-
-// router.get("/details", auth, (req, res) => {
-// 	res.status(200).json({ message: "user authenticated." });
-// });
-
-// export default router;
 
  module.exports = router;

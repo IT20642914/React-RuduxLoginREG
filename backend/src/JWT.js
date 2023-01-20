@@ -1,17 +1,17 @@
 const { sign, verify } = require("jsonwebtoken");
-import config from "./configs";
+import {JWT_KEY} from "./configs";
 const createTokens = (user) => {
-  const accsessToken = sign({ email: user.email }, config.JWT_KEY);
+  const accsessToken = sign({ email: user.email ,username:user.username,role:user.role,},JWT_KEY);
   //refesh tokens add krnn puuwan
-
   return accsessToken;
 };
+
 const validateTokens=(req,res,next)=>{
     const accsessToken= req.cookies["access-token"]
    
     if(!accsessToken) return res.status(400).json({error:"User Not Authenticated !"});
     try{
-    const validToken=verify(accsessToken,config.JWT_KEY);
+    const validToken=verify(accsessToken,JWT_KEY);
         if(validToken) {
                 req.authenticated=true
                 return next();
@@ -21,4 +21,10 @@ const validateTokens=(req,res,next)=>{
     }
 
 }
-module.exports = { createTokens,validateTokens };
+
+const authRole=(req,res,next)=>{
+
+
+
+}
+module.exports = { createTokens,validateTokens,authRole };

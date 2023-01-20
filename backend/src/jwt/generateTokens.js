@@ -1,5 +1,5 @@
 import jwt from "jsonwebtoken";
-import UserToken from "../models/userTokens";
+import UserToken from "../models/UserToken.js";
 
 const generateTokens = async (user) => {
 	try {
@@ -19,10 +19,10 @@ const generateTokens = async (user) => {
 		if (userToken) await userToken.remove();
 
 		await new UserToken({ userId: user._id, token: refreshToken }).save();
-		
 		return Promise.resolve({ accessToken, refreshToken });
 	} catch (err) {
 		return Promise.reject(err);
 	}
 };
+
 export default generateTokens;

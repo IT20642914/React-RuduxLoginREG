@@ -1,13 +1,14 @@
 import { Router } from "express";
-import User from "../models/users";
-//const bcrypt = require("bcrypt");
+import User from "../models/User.js";
 import bcrypt from "bcrypt";
-import generateTokens from '../utils/genarateTokens';
-const router =Router();
+import generateTokens from "../JWT/generateTokens";
 import {
 	signUpBodyValidation,
 	logInBodyValidation,
-} from "../utils/validationSchema";
+} from "../utils/validationSchema.js";
+
+const router = Router();
+
 // signup
 router.post("/signUp", async (req, res) => {
 	try {
@@ -38,7 +39,7 @@ router.post("/signUp", async (req, res) => {
 });
 
 // login
-router.post("/login", async (req, res) => {
+router.post("/logIn", async (req, res) => {
 	try {
 		const { error } = logInBodyValidation(req.body);
 		if (error)

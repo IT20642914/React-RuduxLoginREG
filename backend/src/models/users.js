@@ -3,7 +3,12 @@ const schema = mongoose.Schema;
 
 const UserSchema = new schema({
     
-    
+    username:{
+        type: String,
+        required: true,
+        unique:true,
+      
+    },
     firstname: {
         type: String,
         required: true
@@ -14,7 +19,9 @@ const UserSchema = new schema({
     },
     email: {
         type: String,
-        required: true
+        lowercase:true,
+        required: true,
+        unique:true,
     },
    
     phoneNumber: {
