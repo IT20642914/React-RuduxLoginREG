@@ -6,10 +6,8 @@ import roleCheck from "../middleware/roleCheck.js";
 
 
 
-
-router.post('/login',authController.handleLogin)
-router.post('/register',authController.handleRegistation)
 router.get('/',authController.view)
+
 
 
 

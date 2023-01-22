@@ -1,53 +1,80 @@
-const User = require("../models/users");
+
 const bcrypt = require("bcrypt");
 const cookiePraser= require("cookie-parser");
 const Users = require("../models/users");
-const { where } = require("../models/users");
-const  {createTokens, validateTokens}= require("../JWT");
+
+import generateTokens from "../JWT/generateTokens";
+
+import {
+	signUpBodyValidation,
+	logInBodyValidation,
+} from "../utils/validationSchema";
 
 //login
 const handleLogin = async (req,res) => {
+  try{
 
       const {email,password}=req.body;
-     
-      if(!email||!password) return res.status(400).json({ 'message': 'Username and password are required.' });
+      const { error } = logInBodyValidation(req.body);
+      if (error)
+        return res
+          .status(400)
+          .json({ error: true, message: error.details[0].message });
+  
     
 
          const user= await Users.findOne({email:email});
-     console.log(user);
+;
      if(!user)  return res.status(400).json({error:"User Doesn't Exist"});
 
 
      const DbPassword= user.password;
     
-     bcrypt.compare(password,DbPassword).then((match)=>{
+     bcrypt.compare(password,DbPassword).then(async(match)=>{
         if(!match){
             res.status(400).json({error:"Wrong Email and password combination"});
         }else{
 
-            const accsessToken= createTokens(user);
+            const { accessToken, refreshToken } = await generateTokens(user);
 
-       
+            res.status(200).json({
+                error: false,
+                accessToken,
+                refreshToken,
+                message: `${user.username} Logged in sucessfully`,
+            });
 
 
-        return  res.status(200).json({ 'success': `User ${user.firstname} is logged in!` ,accsessToken});
-       
+      
         }
-
-     })  
+     })  }catch(err){
+      console.log(err);
+      res.status(500).json({ error: true, message: "Internal Server Error" });
+     }
 }
 
 //Registation
 const handleRegistation= async (req,res)=>{
   
-    const username=req.body.username;
-      const firstname = req.body.firstname;
-      const lastname = req.body.lastname;
-      const email = req.body.email;
-      const phoneNumber = Number(req.body.phoneNumber);
+  try {
+
+		const { error } = signUpBodyValidation(req.body);
+		if (error)
+			return res
+				.status(400)
+				.json({ error: true, message: error.details[0].message });
+
+
+
+     const username=req.body.username;
+    //  const firstname = req.body.firstname;
+    //   const lastname = req.body.lastname;
+       const email = req.body.email;
+    //   const phoneNumber = Number(req.body.phoneNumber);
+     
       const password = await bcrypt.hash (req.body.password,10);
-      const newuser = new User({firstname,lastname,email,phoneNumber,password,username
-    });
+      const newuser = new Users({...req.body,password});
+    
     const user= await Users.findOne({email:email})
     const user2= await Users.findOne({username:username})
     if(!user){
@@ -67,6 +94,10 @@ const handleRegistation= async (req,res)=>{
     }else{
         res.json("email adress is alredy used")
     }
+  }catch(err){
+    console.log(err);
+		res.status(500).json({ error: true, message: "Internal Server Error" });
+  }
 }
 
 const view= async(req,res)=>{

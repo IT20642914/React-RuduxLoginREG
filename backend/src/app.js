@@ -7,6 +7,9 @@ import 'dotenv/config';
 import logger from './utils/logger';
 import { connect } from './utils/database.connection';
 
+import authRoutes from "./routes/auth";
+import refreshTokenRoutes from "./routes/refreshToken.js";
+import userRoutes from "./routes/users.js";
 
 const app = express();
 const PORT = process.env.PORT || "9090";
@@ -21,11 +24,12 @@ app.listen(PORT, () => {
 
 });
 
-const Users = require("./routes/users.js");   //this is our middleware to connect routers and model
+//const Users = require("./routes/users.js");   //this is our middleware to connect routers and model
 //app.use("/users",userrouter);
-app.use("/Users",Users)
-
-
+//app.use("/Users",Users)
+app.use("/api", authRoutes);
+app.use("/api/refreshToken", refreshTokenRoutes);
+app.use("/api/users", userRoutes);
 
 
 
