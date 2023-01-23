@@ -10,8 +10,9 @@ import {
 const authController= require("../controller/authController")
 const router = Router();
 
-
+//login route
 router.post('/login',authController.handleLogin)
+//sign route
 router.post('/register',authController.handleRegistation)
 
 

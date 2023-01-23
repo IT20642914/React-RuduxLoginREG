@@ -4,6 +4,8 @@ import {Form,Button,Container,Row,Col } from 'react-bootstrap';
 import { useFormik } from 'formik';
 import {basicLoginvalidation} from '../Schemas/index'
 import { useDispatch } from 'react-redux';
+import axios from 'axios';
+import { setAuthToken } from '../components/authtokens';
 
 
 
@@ -20,11 +22,30 @@ const LoginScreen = () => {
     },
     validationSchema:basicLoginvalidation,
     onSubmit: values => {
-    //  alert(JSON.stringify(values, null, 2));
+    
       console.log("Login details",values);
-     // dispatch();
-      // navigate("/login")
-      
+    try{
+      axios.post("http://localhost:9090/api/login",values).then( async (response)=>{
+         const accessToken=response.data.accessToken;
+         const refreshToken=response.data.refreshToken;
+         const username=response.data.username;
+         const role=response.data.role;
+
+        localStorage.setItem("accessToken",accessToken)
+        localStorage.setItem("refreshToken",refreshToken)
+        localStorage.setItem('username',username)
+        localStorage.setItem('role',role)
+       
+
+        console.log(response.data)
+
+       setAuthToken(accessToken);
+       window.location.href = '/'
+      })
+    }catch(err){
+    console.log("");
+    }
+
     },
   
   });console.log('Errors found',errors);

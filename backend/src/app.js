@@ -29,7 +29,7 @@ app.listen(PORT, () => {
 //app.use("/Users",Users)
 app.use("/api", authRoutes);
 app.use("/api/refreshToken", refreshTokenRoutes);
-app.use("/api/users", userRoutes);
+app.use("/api", userRoutes);
 
 
 

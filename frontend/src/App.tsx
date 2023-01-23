@@ -14,8 +14,14 @@ import { Provider } from 'react-redux';
 import Cart from './components/Cart';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Container } from 'react-bootstrap';
+import { setAuthToken } from './components/authtokens';
 
 function App() {
+
+  const token = localStorage.getItem("token");
+  if (token) {
+      setAuthToken(token);
+  }
   return ( 
     <Provider store={store} >
       <PersistGate persistor={persistore}>
@@ -26,7 +32,7 @@ function App() {
     <main>
   <Container>
         <Routes>
-        <Route  path="/" element={<HomeScreen/>} />
+       <Route  path="/" element={<HomeScreen/>} />
        
         <Route path="/login" element={<LoginScreen/>} />
         <Route path="/signup" element={<SignupScreen/>} />

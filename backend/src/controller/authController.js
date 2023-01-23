@@ -36,11 +36,13 @@ const handleLogin = async (req,res) => {
         }else{
 
             const { accessToken, refreshToken } = await generateTokens(user);
-
+          const userName=user.username;
+          const role=user.roles;
             res.status(200).json({
                 error: false,
                 accessToken,
                 refreshToken,
+                userName,role,
                 message: `${user.username} Logged in sucessfully`,
             });
 
@@ -100,15 +102,5 @@ const handleRegistation= async (req,res)=>{
   }
 }
 
-const view= async(req,res)=>{
 
-    User.find()
-    .then((users) => {
-      res.json(users);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}
-
-module.exports = { handleLogin ,handleRegistation,view};
+module.exports = { handleLogin ,handleRegistation};

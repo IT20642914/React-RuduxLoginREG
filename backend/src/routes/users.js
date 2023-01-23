@@ -1,12 +1,14 @@
 const router = require("express").Router();
-const authController= require("../controller/authController")
+const authController= require("../controller/authController");
+const userController=require("../controller/userController");
 const  {createTokens, validateTokens,authRole}= require("../JWT");
 import auth from "../middleware/auth.js";
 import roleCheck from "../middleware/roleCheck.js";
 
 
 
-router.get('/',authController.view)
+router.get('/home',auth,roleCheck(['admin']),userController.Home)
+router.get('/',auth,roleCheck(['user']),userController.Homeuser)
 
 
 
