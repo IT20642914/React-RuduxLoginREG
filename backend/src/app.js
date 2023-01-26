@@ -14,7 +14,12 @@ import userRoutes from "./routes/users.js";
 const app = express();
 const PORT = process.env.PORT || "9090";
 
-app.use(cors());
+//app.use(cors());
+const corsConfig = {
+    credentials: true,
+    origin: true,
+};
+app.use(cors(corsConfig));
 app.use(express.json({ limit: "20mb" }));
 app.use(cookiePraser());
 

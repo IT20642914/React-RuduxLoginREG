@@ -15,7 +15,7 @@ import Cart from './components/Cart';
 import { PersistGate } from 'redux-persist/integration/react';
 import { Container } from 'react-bootstrap';
 import { setAuthToken } from './components/authtokens';
-
+import { ToastContainer, toast } from 'react-toastify';
 function App() {
 
   const token = localStorage.getItem("token");
@@ -28,7 +28,7 @@ function App() {
     <BrowserRouter>
     <Header />
 
- 
+ <ToastContainer/>
     <main>
   <Container>
         <Routes>

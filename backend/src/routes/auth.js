@@ -15,6 +15,8 @@ router.post('/login',authController.handleLogin)
 //sign route
 router.post('/register',authController.handleRegistation)
 
+//get refesh token
+router.post('/refresh',authController.GetRefeshtoken)
 
 
 export default router;

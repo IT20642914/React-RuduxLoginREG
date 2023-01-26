@@ -3,11 +3,11 @@ import UserToken from "../models/UserToken.js";
 
 const generateTokens = async (user) => {
 	try {
-		const payload = { _id: user._id, roles: user.roles };
+		const payload = { username: user.username, roles: user.roles };
 		const accessToken = jwt.sign(
 			payload,
 			process.env.ACCESS_TOKEN_PRIVATE_KEY,
-			{ expiresIn: "14m" }
+			{ expiresIn: "30s" }
 		);
 		const refreshToken = jwt.sign(
 			payload,
@@ -15,7 +15,7 @@ const generateTokens = async (user) => {
 			{ expiresIn: "30d" }
 		);
 
-		const userToken = await UserToken.findOne({ userId: user._id });
+		const userToken = await UserToken.findOne({ username: user.username });
 		if (userToken) await userToken.remove();
 
 		await new UserToken({ userId: user._id, token: refreshToken }).save();

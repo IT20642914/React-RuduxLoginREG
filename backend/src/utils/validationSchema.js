@@ -9,6 +9,7 @@ const signUpBodyValidation = (body) => {
 		firstname:Joi.string().required().label('firstname'),
 		lastname:Joi.string().required().label('lastname'),
 		phoneNumber:Joi.string().required().label('phoneNumber'),
+		Cpassword: passwordComplexity().required().label("Confirm Password"),
 
 	});
 	return schema.validate(body);

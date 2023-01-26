@@ -3,7 +3,8 @@ import { Form, Button, Container, Row, Col } from 'react-bootstrap';
 import { useFormik } from 'formik';
 //import {useNavigate } from "react-router-dom";
 import {basicValidation} from '../Schemas/index'
-
+import axios from 'axios';
+import { ToastContainer, toast } from 'react-toastify';
 //import { navigate } from '@reach/router';
 
 
@@ -23,20 +24,53 @@ const SignupScreen = () => {
 
   const {values,errors,touched,isSubmitting,handleBlur,handleSubmit,handleChange} = useFormik({
     initialValues: {
-     firstname  :'',
+      username:'',
+      firstname  :'',
       lastname: '',
       email: '',
       password: '',
       Cpassword: '',
-      phonenumber:'',
+      phoneNumber:'',
 
     },
     validationSchema:basicValidation,
-    onSubmit,
-   
-   
+    onSubmit:values =>{
+      axios.post("/register",values).then((response)=>{
+        // console.log("respose",response.data)
+
+    console.log("resopnse data",response.data);
+        if(response.status === 200){
+          const massege=response.data ;
+          console.log(response.data );
+          toast.success(massege, {
+            position: toast.POSITION.TOP_RIGHT  
+          });
+        }
+
+      }).catch((error)=>{
+        
+        console.log(error.response.data );
+
+        if(error.response.status === 401){
+          const massege=error.response.data ;
+          console.log(error.response.data );
+          toast.error(massege, {
+            position: toast.POSITION.TOP_RIGHT  
+          });
+        //   Swal.fire('Any fool can use a computer')
+       }
+        
+      })
+
+    },
+    
+    
+ 
+
+
+
   });
-  console.log('Errors found',errors);
+
 
 
   return (
@@ -70,14 +104,26 @@ const SignupScreen = () => {
                  {errors.lastname && touched.lastname &&<p className='error'>{errors.lastname}</p> }
                
               </Form.Group>
-              <Form.Group className="my-3" controlId="phonenumber">
+
+              <Form.Group className="my-3" controlId="username" >
+                <Form.Label>Username</Form.Label>
+                <Form.Control type="username" placeholder="Enter your username"
+                  value={values.username}
+                  onChange={handleChange} 
+                  onBlur={handleBlur}
+                  className={errors.lastname && touched.username  ? "input-error" :""}/>
+                 {errors.username && touched.username &&<p className='error'>{errors.username}</p> }
+               
+              </Form.Group>
+
+              <Form.Group className="my-3" controlId="phoneNumber">
                 <Form.Label> Phone Number</Form.Label>
-                <Form.Control type="phonenumber" placeholder="Enter Your Phone Number"
-                  value={values.phonenumber}
+                <Form.Control type="phoneNumber" placeholder="Enter Your Phone Number"
+                  value={values.phoneNumber}
                   onChange={handleChange}
                   onBlur={handleBlur}
-                  className={errors.phonenumber && touched.phonenumber  ? "input-error" :""} />
-           {errors.phonenumber && touched.phonenumber &&<p className='error'>{errors.phonenumber}</p> }
+                  className={errors.phoneNumber && touched.phoneNumber  ? "input-error" :""} />
+           {errors.phoneNumber && touched.phoneNumber &&<p className='error'>{errors.phoneNumber}</p> }
               </Form.Group>
 
 
@@ -111,8 +157,8 @@ const SignupScreen = () => {
            {errors.Cpassword && touched.Cpassword &&<p className='error'>{errors.Cpassword}</p> }
               </Form.Group>
 
-
-              <Button variant="dark" disabled={isSubmitting} className="my-3" type="submit" >
+{/* disabled={isSubmitting} */}
+              <Button variant="dark"  className="my-3" type="submit" >
                 Submit
               </Button>
             </Form>
@@ -126,3 +172,7 @@ const SignupScreen = () => {
 }
 
 export default SignupScreen
+function async(response: any) {
+  throw new Error('Function not implemented.');
+}
+

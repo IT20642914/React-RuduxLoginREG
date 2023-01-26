@@ -8,11 +8,11 @@ const passwordRules =/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}/;
 const phoneRegExp = /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/
 
 export const basicValidation= yup.object().shape({
-
+username:yup.string().required("Required"),
 firstname:yup.string().required("Required"),
 lastname:yup.string().required("Required"),
 email:yup.string().email('please Enter valid email').required("Required"),
-phonenumber:yup .string().required('please Enter mobile Number') 
+phoneNumber:yup .string().required('please Enter mobile Number') 
 .matches(phoneRegExp,'please enter valide phone number')
 .min(10, "too short")
 .max(10, "too long"),
@@ -38,6 +38,8 @@ export const basicLoginvalidation= yup.object().shape({
     .string()
     .required("please enter valid password"), 
     });
+
+ 
     
     
 

@@ -18,7 +18,7 @@ const handleLogin = async (req,res) => {
       const { error } = logInBodyValidation(req.body);
       if (error)
         return res
-          .status(400)
+          .status(403)
           .json({ error: true, message: error.details[0].message });
   
     
@@ -32,12 +32,13 @@ const handleLogin = async (req,res) => {
     
      bcrypt.compare(password,DbPassword).then(async(match)=>{
         if(!match){
-            res.status(400).json({error:"Wrong Email and password combination"});
+            res.status(401).json({error:"Wrong Email and password combination",
+          message:"Wrong Email and password combination"});
         }else{
 
             const { accessToken, refreshToken } = await generateTokens(user);
-          const userName=user.username;
-          const role=user.roles;
+            const userName=user.username;
+            const role=user.roles;
             res.status(200).json({
                 error: false,
                 accessToken,
@@ -63,7 +64,7 @@ const handleRegistation= async (req,res)=>{
 		const { error } = signUpBodyValidation(req.body);
 		if (error)
 			return res
-				.status(400)
+				.status(403)
 				.json({ error: true, message: error.details[0].message });
 
 
@@ -83,7 +84,7 @@ const handleRegistation= async (req,res)=>{
      
       if(!user2){
             newuser.save().then(()=>{
-          res.json("USER REGISTERD");
+          res.status(200).json(`User Registerd Successfully`);
       
         }).catch((err)=>{
           if(err){
@@ -91,10 +92,10 @@ const handleRegistation= async (req,res)=>{
           }
         })
           }else{
-            res.json("username is alredy used")
+            res.status(401).json("username is alredy used")
           }
     }else{
-        res.json("email adress is alredy used")
+        res.status(401).json("email adress is alredy used")
     }
   }catch(err){
     console.log(err);
@@ -103,4 +104,10 @@ const handleRegistation= async (req,res)=>{
 }
 
 
-module.exports = { handleLogin ,handleRegistation};
+const GetRefeshtoken=()=>{
+  console.log("hello get token")
+
+  // const { refreshToken } = await generateTokens(user);
+}
+
+module.exports = { handleLogin ,handleRegistation,GetRefeshtoken};
