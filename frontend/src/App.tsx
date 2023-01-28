@@ -10,6 +10,7 @@ import SignupScreen from './screen/SignupScreen';
 import ProductDetails from './screen/ProductDetails';
 import ProductListing from './screen/ProductListing';
 import AdminHome from './screen/AdminHome';
+import Profile from './screen/Profile';
 import { store,persistore } from './redux/store';
 import { Provider, useDispatch } from 'react-redux';
 import Cart from './components/Cart';
@@ -40,6 +41,7 @@ function App() {
        {IsLogin&&<Route path='/adminpanel' element={<AdminHome/>}/>}
        
         {!IsLogin&&<Route path="/login" element={<LoginScreen/>} />}
+        <Route path="/profile" element={<Profile/>} />
         <Route path="/signup" element={<SignupScreen/>} />
         <Route path="/store" element={<ProductListing/>} />
         <Route  path="/product/:productId" element={<ProductDetails/>} />

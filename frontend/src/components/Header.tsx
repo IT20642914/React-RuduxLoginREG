@@ -12,6 +12,7 @@ const Header = () => {
   const navigate = useNavigate();
   const state = useSelector((state: any) => state.cart)
   const IsLogin = useSelector((state: any) => state.login.isLoggedIn)
+  const username = useSelector((state: any) => state.login.username)
   console.log("login state", IsLogin)
   function handleClick() {
     navigate('/login')
@@ -72,12 +73,15 @@ const Header = () => {
                 <i className="fa fa-user-plus mx-2" aria-hidden="true"></i>{" "}
                 Register{" "}
               </NavLink>}
-              <NavLink to="/cart" className="btn btn-outline-light mx-1">
+              {IsLogin&&    <NavLink to="/cart" className="btn btn-outline-light mx-1">
                 <i className="fa fa-shopping-cart mx-2" aria-hidden="true"></i> Cart
                 ({state.length}){" "}
-              </NavLink>
+              </NavLink>}
 
-              {IsLogin && <button onClick={handlechange}>click me </button>}
+              {IsLogin && <NavLink to="/profile" className="btn btn-outline-light mx-2">
+                <i className="fa fa-user mx-2 " aria-hidden="true"></i>{username}
+              </NavLink>}
+
 
             </ul>
           </div>
