@@ -3,20 +3,20 @@ import {Form,Button,Container,Row,Col } from 'react-bootstrap';
 //import { useNavigate  } from "react-router-dom";
 import { useFormik } from 'formik';
 import {basicLoginvalidation} from '../Schemas/index'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { setAuthToken } from '../components/authtokens';
 import Swal from 'sweetalert2'
 import { ToastContainer, toast } from 'react-toastify';
-
+import { useNavigate } from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
 import jwt_decode from "jwt-decode";
+import { setlogin } from '../redux/actions/authAction';
  
 const LoginScreen = () => {
   //const navigate = useNavigate()
   const dispatch =useDispatch();
-  
-
+  const navigate = useNavigate();
   const {values,errors,touched,handleBlur,handleSubmit,handleChange} = useFormik({
     initialValues: {
 
@@ -41,19 +41,24 @@ const LoginScreen = () => {
     
         const decoded:any = jwt_decode(accessToken);
         console.log("decode date",decoded.roles);
-
+        const username=decoded.username;
+        const roles= decoded.roles
         setAuthToken(accessToken);
-         localStorage.setItem("accessToken",accessToken)
+        //  localStorage.setItem("accessToken",accessToken)
          localStorage.setItem("refreshToken",refreshToken)
-         localStorage.setItem('username',decoded.userName)
-         localStorage.setItem('role',decoded.roles)
-        
-
-         if(decoded.roles=='user'){
+         localStorage.setItem('username',username)
+         localStorage.setItem('role',roles)
+         
+         dispatch(setlogin({accessToken,username,roles,refreshToken}))
+         
+         if(roles=='user'){
           console.log("user login");
+          navigate('/')
          }
-         else if(decoded.roles=='admin'){
+         else if(roles=='admin'){
           console.log("admin login");
+
+          navigate('/adminpanel')
          }
 
         

@@ -1,12 +1,12 @@
 import { combineReducers } from "redux";
 
 import { handleCartReducer, productReducer,selectedProductReducer} from "./productReducer";
-import { accessKey } from "./authReducer";
+import { loginReducer } from "./authReducer";
 import btnreducer from "./btnreducer"; 
 
 const RootReducer =combineReducers({
 
-    accessKey: accessKey,
+    login:loginReducer,
     btnValue:btnreducer,
     allProducts:productReducer,
     product:selectedProductReducer,
