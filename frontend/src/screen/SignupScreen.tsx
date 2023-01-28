@@ -157,7 +157,7 @@ const SignupScreen = () => {
            {errors.Cpassword && touched.Cpassword &&<p className='error'>{errors.Cpassword}</p> }
               </Form.Group>
 
-{/* disabled={isSubmitting} */}
+        disabled={isSubmitting}
               <Button variant="dark"  className="my-3" type="submit" >
                 Submit
               </Button>
