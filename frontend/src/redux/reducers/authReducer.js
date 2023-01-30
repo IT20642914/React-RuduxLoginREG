@@ -23,7 +23,7 @@ const initialState = {
         return {
           ...state,
           isLoggedIn: true,
-          accessKey: payload.accessKey,
+          accessKey: payload.accessToken,
           roles:payload.roles,
           username:payload.username,
           refeshtoken:payload.refeshtoken,

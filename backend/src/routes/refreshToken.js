@@ -7,7 +7,7 @@ import { refreshTokenBodyValidation } from "../utils/validationSchema.js";
 const router = Router();
 
 // get new access token
-router.post("/", async (req, res) => {
+router.post("/refeshtoken", async (req, res) => {
 	const { error } = refreshTokenBodyValidation(req.body);
 	if (error)
 		return res

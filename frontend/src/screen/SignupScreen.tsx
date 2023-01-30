@@ -6,16 +6,12 @@ import {basicValidation} from '../Schemas/index'
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from 'react-router-dom';
-//import { navigate } from '@reach/router';
-
 
 const onSubmit= async (values: any,action: any) =>{
 
   console.log('sumbited data is',values)
   console.log('sumbited action is',action)
-  // await new Promise((resolve)=> setTimeout(resolve,1000));
-  // action.resetForm();
-
+ 
 
 }
 

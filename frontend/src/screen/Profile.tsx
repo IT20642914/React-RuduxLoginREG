@@ -8,6 +8,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { useDispatch, useSelector } from 'react-redux';
 import { setlogout } from '../redux/actions/authAction';
 import { useNavigate } from 'react-router-dom';
+import { request } from 'https';
 //import { navigate } from '@reach/router';
 
 
@@ -35,6 +36,17 @@ const handlelogout =()=>{
   navigate("/login")
 
 }
+const  token= useSelector((state:any)=> state.login.accessKey);
+console.log("token",token)
+
+axios.get("/userDetails",{
+  headers: {
+    'Authorization': 'Bearer ' + token
+  }
+}).then(async(response)=>{
+  const details= await response.data;
+console.log("data",details)
+})
 
   const {values,errors,touched,isSubmitting,handleBlur,handleSubmit,handleChange} = useFormik({
     initialValues: {
@@ -82,7 +94,6 @@ const handlelogout =()=>{
  
 
 
-
   });
 
 
@@ -94,7 +105,7 @@ const handlelogout =()=>{
       <div className='container  py-0'style={{height:'auto', marginBottom:'13rem'}}>
         <div className='row justify-content-md-center  card shadow mb-4'  >
           <Col className="card-header py-3" >
-            <h1 className="m-2 card-title">Sign Up</h1>
+            <h1 className="m-2 card-title">Profile</h1>
             {/* <FormContainer> */}
             <Form className="card-body" onSubmit={handleSubmit}  >
 

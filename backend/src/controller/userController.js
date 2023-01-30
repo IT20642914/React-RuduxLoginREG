@@ -18,4 +18,13 @@ const Homeuser= async(req,res)=>{
       res.json(" hello user");
    
 }
-module.exports = {Home,Homeuser};
+const UserDetails= async(req,res)=>{
+      res.json("user details")
+}
+
+
+const refeshtoken= async(req,res)=>{
+     console.log("reqsed data",req.data)
+
+}
+module.exports = {Home,Homeuser,UserDetails,refeshtoken};

@@ -22,10 +22,22 @@ import { useSelector } from 'react-redux';
 import { redirect } from 'react-router-dom';
 import { checkAuth } from './redux/actions/authAction';
 import { useNavigate } from "react-router-dom";
+import jwt_decode from "jwt-decode";
+import axios from 'axios';
 function App() {
   const  IsLogin= useSelector((state:any)=> state.login.isLoggedIn)
+  const jwtToken= useSelector((state:any)=> state.login.accessKey)
+  const decoded:any = jwt_decode(jwtToken);
+  const currentTime = new Date().getTime() / 1000;
 
- 
+ // console.log("jwt expierd",decoded)
+  if (decoded.exp < currentTime) {
+      console.log("jwt expierd")
+      axios.get("/refeshtoken",jwtToken).then(response=>{
+      console.log(response);
+    })
+
+  }
   return ( 
     
      
