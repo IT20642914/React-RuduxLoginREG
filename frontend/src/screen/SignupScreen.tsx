@@ -5,6 +5,7 @@ import { useFormik } from 'formik';
 import {basicValidation} from '../Schemas/index'
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
+import { useNavigate } from 'react-router-dom';
 //import { navigate } from '@reach/router';
 
 
@@ -20,7 +21,7 @@ const onSubmit= async (values: any,action: any) =>{
 
 
 const SignupScreen = () => {
- // const navigate = useNavigate();
+  const navigate = useNavigate();
 
   const {values,errors,touched,isSubmitting,handleBlur,handleSubmit,handleChange} = useFormik({
     initialValues: {
@@ -45,6 +46,7 @@ const SignupScreen = () => {
           toast.success(massege, {
             position: toast.POSITION.TOP_RIGHT  
           });
+          navigate("/login")
         }
 
       }).catch((error)=>{
@@ -157,7 +159,7 @@ const SignupScreen = () => {
            {errors.Cpassword && touched.Cpassword &&<p className='error'>{errors.Cpassword}</p> }
               </Form.Group>
 
-        disabled={isSubmitting}
+       {isSubmitting}
               <Button variant="dark"  className="my-3" type="submit" >
                 Submit
               </Button>

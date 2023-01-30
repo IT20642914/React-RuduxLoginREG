@@ -23,7 +23,7 @@ const handlechange=()=>{
   });
   dispatch(btn_value_increse())
 
-  dispatch(setlogout())
+
  
 }
 
