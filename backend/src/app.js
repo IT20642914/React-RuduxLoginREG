@@ -8,7 +8,7 @@ import logger from './utils/logger';
 import { connect } from './utils/database.connection';
 
 import authRoutes from "./routes/auth";
-import refreshTokenRoutes from "./routes/refreshToken.js";
+//import refreshTokenRoutes from "./routes/refreshToken.js";
 import userRoutes from "./routes/users.js";
 
 const app = express();
@@ -33,7 +33,7 @@ app.listen(PORT, () => {
 //app.use("/users",userrouter);
 //app.use("/Users",Users)
 app.use("/api", authRoutes);
-app.use("/api/refreshToken", refreshTokenRoutes);
+//app.use("/api/refreshToken", refreshTokenRoutes);
 app.use("/api", userRoutes);
 
 
