@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const cookiePraser= require("cookie-parser");
 const Users = require("../models/users");
-
+import jwt_decode from "jwt-decode";
 import generateTokens from "../JWT/generateTokens";
 
 const Home= async(req,res)=>{
@@ -24,7 +24,24 @@ const UserDetails= async(req,res)=>{
 
 
 const refeshtoken= async(req,res)=>{
-     console.log("reqsed data",req.data)
+      
+  const  jwtrefesh=req.body.data.jwtrefesh;
+  const decoded = jwt_decode(jwtrefesh);
+
+      console.log("Requestdate",decoded)
+      const user= await Users.findOne({username:decoded.username})
+      const { accessToken ,refreshToken} = await generateTokens(user);
+      const userName=user.username;  
+      const role=user.roles;
+      res.status(200).json({
+            error: false,
+            accessToken,
+            refreshToken,
+            userName,role,
+            message: `refresh values`,
+        });
+
+      
 
 }
 module.exports = {Home,Homeuser,UserDetails,refeshtoken};

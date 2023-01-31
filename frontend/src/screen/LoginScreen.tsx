@@ -32,24 +32,25 @@ const LoginScreen = () => {
        const status=await response.status
         if( status==200){
           const accessToken= await response.data.accessToken;
-          const refreshToken= await response.data.refreshToken;
+          const refeshtoken= await response.data.refreshToken;
           const message= await response.data.message;
      
           toast.success(message, {
             position: toast.POSITION.TOP_RIGHT
           });
     
+          console.log("refeshtoken",refeshtoken);
         const decoded:any = jwt_decode(accessToken);
         console.log("decode date",decoded.roles);
         const username=decoded.username;
         const roles= decoded.roles
         setAuthToken(accessToken);
         //  localStorage.setItem("accessToken",accessToken)
-         localStorage.setItem("refreshToken",refreshToken)
-         localStorage.setItem('username',username)
-         localStorage.setItem('role',roles)
+        //  localStorage.setItem("refreshToken",refeshtoken)
+        //  localStorage.setItem('username',username)
+        //  localStorage.setItem('role',roles)
          
-         dispatch(setlogin({accessToken,username,roles,refreshToken}))
+         dispatch(setlogin({accessToken,username,roles,refeshtoken}))
          
          if(roles=='user'){
           console.log("user login");

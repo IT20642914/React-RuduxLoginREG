@@ -38,6 +38,7 @@ const handleLogin = async (req,res) => {
 
             const { accessToken, refreshToken } = await generateTokens(user);
             const userName=user.username;
+           
             const role=user.roles;
             res.status(200).json({
                 error: false,
@@ -104,10 +105,10 @@ const handleRegistation= async (req,res)=>{
 }
 
 
-const GetRefeshtoken=()=>{
+const GetRefeshtoken=async()=>{
   console.log("hello get token")
 
-  // const { refreshToken } = await generateTokens(user);
+  
 }
 
 module.exports = { handleLogin ,handleRegistation,GetRefeshtoken};

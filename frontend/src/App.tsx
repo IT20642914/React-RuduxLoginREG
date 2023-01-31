@@ -20,24 +20,38 @@ import { setAuthToken } from './components/authtokens';
 import { ToastContainer, toast } from 'react-toastify';
 import { useSelector } from 'react-redux';
 import { redirect } from 'react-router-dom';
-import { checkAuth } from './redux/actions/authAction';
+import { checkAuth, setlogin } from './redux/actions/authAction';
 import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import axios from 'axios';
 function App() {
   const  IsLogin= useSelector((state:any)=> state.login.isLoggedIn)
   const jwtToken= useSelector((state:any)=> state.login.accessKey)
+  const jwtrefesh=useSelector((state:any)=> state.login.refeshtoken)
+  console.log("jwtrefesh",jwtrefesh)
+  console.log("jwtToken",jwtToken)
+
+const dispatch = useDispatch();
+  if(IsLogin){
   const decoded:any = jwt_decode(jwtToken);
   const currentTime = new Date().getTime() / 1000;
-
  // console.log("jwt expierd",decoded)
   if (decoded.exp < currentTime) {
       console.log("jwt expierd")
-      axios.get("/refeshtoken",jwtToken).then(response=>{
-      console.log(response);
-    })
+      axios.post("/refeshtoken", { data:{
+        jwtrefesh
+    }}).then(response=>{
+      console.log("response data",response.data);
+      const accessToken=response.data.accessToken;
+      const username=response.data.username;
+      const roles=response.data.roles;
+      //const refeshtoken=response.data.refeshtoken;
+      dispatch(setlogin({accessToken,username,roles}))
 
+    })
   }
+  }
+
   return ( 
     
      

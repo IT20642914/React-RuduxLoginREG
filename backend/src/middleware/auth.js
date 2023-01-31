@@ -10,7 +10,7 @@ const auth = async (req, res, next) => {
 
 			const parted = token.split(' ');
 			if (parted.length === 2) {
-				console.log("parted",parted[1])
+			//	console.log("parted",parted[1])
 
 	try {
 		const tokenDetails = jwt.verify(

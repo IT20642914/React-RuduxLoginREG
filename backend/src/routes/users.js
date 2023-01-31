@@ -10,7 +10,7 @@ import roleCheck from "../middleware/roleCheck.js";
 router.get('/home',auth,roleCheck(['admin']),userController.Home)
 router.get('/',auth,roleCheck(['user']),userController.Homeuser)
 router.get('/userDetails',auth,userController.UserDetails)
-router.get('/refeshtoken',userController.refeshtoken)
+ router.post('/refeshtoken',userController.refeshtoken)
 
 
 
