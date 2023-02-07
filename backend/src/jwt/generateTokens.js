@@ -7,7 +7,7 @@ const generateTokens = async (user) => {
 		const accessToken = jwt.sign(
 			payload,
 			process.env.ACCESS_TOKEN_PRIVATE_KEY,
-			{ expiresIn: "30s" }
+			{ expiresIn: "5s" }
 		);
 		const refreshToken = jwt.sign(
 			payload,
@@ -16,10 +16,16 @@ const generateTokens = async (user) => {
 		);
 
 		const userToken = await UserToken.findOne({ username: user.username });
-		if (userToken) await userToken.remove();
-
-		await new UserToken({ userId: user._id, token: refreshToken }).save();
+		if (userToken) {
+		
+			await userToken.remove();
+			await new UserToken({ userId: user._id, token: refreshToken }).save();
+			return Promise.resolve({ accessToken, refreshToken })
+		}
+else{
+	await new UserToken({ userId: user._id, token: refreshToken }).save();
 		return Promise.resolve({ accessToken, refreshToken });
+	}
 	} catch (err) {
 		return Promise.reject(err);
 	}

@@ -24,6 +24,8 @@ import { checkAuth, setlogin } from './redux/actions/authAction';
 import { useNavigate } from "react-router-dom";
 import jwt_decode from "jwt-decode";
 import axios from 'axios';
+
+
 function App() {
   const  IsLogin= useSelector((state:any)=> state.login.isLoggedIn)
   const jwtToken= useSelector((state:any)=> state.login.accessKey)
@@ -32,6 +34,8 @@ function App() {
   console.log("jwtToken",jwtToken)
 
 const dispatch = useDispatch();
+
+
   if(IsLogin){
   const decoded:any = jwt_decode(jwtToken);
   const currentTime = new Date().getTime() / 1000;
@@ -45,10 +49,27 @@ const dispatch = useDispatch();
       const accessToken=response.data.accessToken;
       const username=response.data.username;
       const roles=response.data.roles;
-      //const refeshtoken=response.data.refeshtoken;
-      dispatch(setlogin({accessToken,username,roles}))
+      const refeshtoken=response.data.refeshtoken;
+      dispatch(setlogin({accessToken,refeshtoken,username,roles}))
+      console.log("refresh",jwtrefesh);
+      
+
+    }).catch((err)=>{
+     
+      if(err.response.status==411){
+        console.log("411.",err.response.data)
+        dispatch(logout())
+       
+ 
+      }
+      if(err.response.status==409){
+        console.log("409.",err.response.data)
+      }
 
     })
+    
+      
+    
   }
   }
 
@@ -67,6 +88,7 @@ const dispatch = useDispatch();
        {IsLogin&&<Route path='/adminpanel' element={<AdminHome/>}/>}
        
         {!IsLogin&&<Route path="/login" element={<LoginScreen/>} />}
+   
         <Route path="/profile" element={<Profile/>} />
         <Route path="/signup" element={<SignupScreen/>} />
         <Route path="/store" element={<ProductListing/>} />
@@ -83,3 +105,7 @@ const dispatch = useDispatch();
 }
 
 export default App;
+function logout(): any {
+  throw new Error('Function not implemented.');
+}
+

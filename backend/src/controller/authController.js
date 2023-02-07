@@ -76,7 +76,7 @@ const handleRegistation= async (req,res)=>{
        const email = req.body.email;
     //   const phoneNumber = Number(req.body.phoneNumber);
      
-      const password = await bcrypt.hash (req.body.password,10);
+ 
       const newuser = new Users({...req.body,password});
     
     const user= await Users.findOne({email:email})
