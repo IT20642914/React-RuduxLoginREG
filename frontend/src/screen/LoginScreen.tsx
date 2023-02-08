@@ -6,7 +6,7 @@ import {basicLoginvalidation} from '../Schemas/index'
 import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios';
 import { setAuthToken } from '../components/authtokens';
-import Swal from 'sweetalert2'
+
 import { ToastContainer, toast } from 'react-toastify';
 import { useNavigate } from "react-router-dom";
 import 'react-toastify/dist/ReactToastify.css';
@@ -100,9 +100,6 @@ const LoginScreen = () => {
     },
   
   });
-
-
-
 
 
   return (
