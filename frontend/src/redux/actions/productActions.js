@@ -2,10 +2,10 @@ import fakeStore from "../../Apis/fakeStore";
 import { productActiontype } from "../actionTypes/productActionTypes";
 
 
-export const fetchProducts = () => async (dispatch) => {
-    const response = await fakeStore.get("/products");
-    dispatch({ type: productActiontype.FETCH_PRODUCT, payload: response.data })
-};
+// export const fetchProducts = () => async (dispatch) => {
+//     const response = await fakeStore.get("/products");
+//     dispatch({ type: productActiontype.FETCH_PRODUCTS, payload: response.data })
+// };
 
 export const setProduct = (products) => {
     return {

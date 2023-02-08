@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { Link, useParams } from 'react-router-dom'
-import axios from 'axios'
+
 import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux';
-import { AddToCart, selectedProduct } from '../redux/actions/productActions';
+import { AddToCart,  } from '../redux/actions/productActions';
 import { useSelector } from 'react-redux';
-import { Card, Button } from 'react-bootstrap';
+
 import { NavLink } from 'react-router-dom';
-import Skeleton from 'react-loading-skeleton';
+import { fetchProduct } from '../redux/actions/userAction';
 
 
 const ProductDetails = () => {
@@ -24,19 +24,22 @@ const addproducttocart=(product:any)=>{
 }
 
 
-  const fetchproductDetails=async (productId:any)=>{
-    console.log("product id",productId)
-await axios.get(`https://fakestoreapi.com/products/${productId}`).then((response)=>{
-  console.log(response.data)
-  dispatch(selectedProduct(response.data))
-}).catch((err)=>{
-  console.log(err)
-})
+//   const fetchproductDetails=async (productId:any)=>{
+//     console.log("product id",productId)
+// await axios.get(`https://fakestoreapi.com/products/${productId}`).then((response)=>{
+//   console.log(response.data)
+//   dispatch(selectedProduct(response.data))
+// }).catch((err)=>{
+//   console.log(err)
+// })
 
-  }
+//   }
+
+
   useEffect(()=>{
     if(productId&& productId!==""){
-    fetchproductDetails(productId);}
+
+   dispatch(fetchProduct(productId)) ;}
   },[productId])
   return (
     <div style={{marginBottom:'12rem'}}>
